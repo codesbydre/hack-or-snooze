@@ -56,3 +56,8 @@ console.warn(
     " menu 'Default Levels' and add Verbose"
 );
 $(start);
+
+function showFavoriteStoriesSection() {
+  hidePageComponents();
+  $favoriteStoriesList.show();
+}

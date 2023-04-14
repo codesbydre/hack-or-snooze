@@ -30,7 +30,6 @@ function generateStoryMarkup(story) {
     currentUser.favorites.some((s) => s.storyId === story.storyId);
   const favoriteClass = isFavorite ? "fas" : "far";
   const hostName = story.getHostName();
-  const showDeleteBtn = currentUser && currentUser.ownsStory(story);
   const isOwnStory = currentUser && currentUser.ownsStory(story);
   const trashCanIcon = isOwnStory ? '<i class="fas fa-trash-alt"></i>' : "";
 
@@ -95,6 +94,9 @@ async function submitStory(evt) {
 
   // Redirect the user to the homepage and show the updated list of stories
   navAllStories();
+
+  //Reload page when story submitted
+  location.reload();
 }
 
 // Attach the submit event to the story form
@@ -120,16 +122,24 @@ async function generateMyStories() {
   // Get the user's own stories
   const ownStories = currentUser.ownStories;
   const ownStoriesList = $("#my-stories-ol");
+  const myStoriesHeading = $("#my-stories-heading");
 
   // Empty the list before populating it with new stories
   ownStoriesList.empty();
 
-  // Loop through all user's stories and generate HTML for them
-  for (let story of ownStories) {
-    const $story = generateStoryMarkup(story, true);
-    ownStoriesList.append($story);
+  // Check if the user has no stories, and if so, display a message and hide the "Your stories" heading
+  if (ownStories.length === 0) {
+    ownStoriesList.append("<h5>No stories added by user!</h5>");
+    myStoriesHeading.hide();
+  } else {
+    // Loop through all user's stories and generate HTML for them
+    for (let story of ownStories) {
+      const $story = generateStoryMarkup(story, true);
+
+      ownStoriesList.append($story);
+    }
+    myStoriesHeading.hide();
   }
-  $myStoriesList.show(); // Replace $ownStories with $myStoriesList
 }
 
 //Handle delete story event
@@ -144,20 +154,6 @@ async function handleDeleteStory(evt) {
   $target.closest("li").remove();
 }
 
-//Add functionality to handle deletion of a story
-async function deleteStoryFromUI(evt) {
-  if (!evt.target.classList.contains("delete-btn")) return;
-  const $story = $(evt.target).closest("li");
-  const storyId = $story.attr("id");
-
-  // Remove the story from the API and the currentUser's ownStories array
-  await currentUser.deleteStory(storyId);
-
-  // Remove the story from the DOM
-  $story.remove();
-}
-
-// $allStoriesList.on("click", ".delete-btn", deleteStoryFromUI);
 $allStoriesList.on("click", ".fa-trash-alt", handleDeleteStory);
 $("#my-stories-ol").on("click", ".fa-trash-alt", handleDeleteStory);
 

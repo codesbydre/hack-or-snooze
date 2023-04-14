@@ -12,6 +12,7 @@ function navAllStories(evt) {
   console.debug("navAllStories", evt);
   hidePageComponents();
   putStoriesOnPage();
+  $storyForm.hide(); //Hide the story form
 }
 
 $body.on("click", "#nav-all", navAllStories);
@@ -23,6 +24,7 @@ function navLoginClick(evt) {
   hidePageComponents();
   $loginForm.show();
   $signupForm.show();
+  $storyForm.hide(); //Hide the story form
 }
 
 $navLogin.on("click", navLoginClick);
@@ -35,6 +37,7 @@ function updateNavOnLogin() {
   $navLogin.hide();
   $navLogOut.show();
   $navUserProfile.text(`${currentUser.username}`).show();
+  generateMyStories(); // Add this line to generate the user's stories when they log in
 }
 
 /** Show the submit form when click on "submit" link in the navbar */
@@ -48,10 +51,17 @@ function showSubmitForm(evt) {
 // Add a click event listener for the "submit" link
 $("#nav-submit").on("click", showSubmitForm);
 
+function showFavoriteStories(evt) {
+  console.debug("showFavoriteStories", evt);
+  hidePageComponents();
+  showFavorites();
+}
+
 //Add a click event listener for favorites
 $navFavorites.on("click", function (evt) {
   evt.preventDefault();
-  showFavorites();
+  showFavoriteStories(evt);
+  $storyForm.hide(); //Hide the story form
 });
 
 //Add event listener to the "my stories" link
@@ -59,6 +69,7 @@ $("#nav-my-stories").on("click", async function () {
   // Hide other content and show the user's submitted stories
   hidePageComponents();
   $myStoriesList.show();
+  $storyForm.hide(); //Hide the story form
   // Ensure the user's submitted stories are up-to-date
   await generateMyStories();
 });
