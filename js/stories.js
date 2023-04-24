@@ -1,7 +1,5 @@
 "use strict";
 
-const $storyForm = $("#add-story-form");
-
 // This is the global list of the stories, an instance of StoryList
 let storyList;
 
@@ -167,3 +165,27 @@ $allStoriesList.on("click", ".fa-trash-alt", async function (evt) {
   // Remove the story from the DOM
   $target.closest("li").remove();
 });
+
+//Show list of favorite stories
+function showFavorites() {
+  console.debug("showFavorites");
+
+  $favoriteStoriesList.empty();
+
+  if (currentUser.favorites.length === 0) {
+    $favoriteStoriesList.append("<h5>No favorites added!</h5>");
+  } else {
+    $favoriteStoriesList.append("<h3> Your Favorite Stories </h3>");
+    for (let story of currentUser.favorites) {
+      const $story = generateStoryMarkup(story);
+      $favoriteStoriesList.append($story);
+    }
+  }
+
+  showFavoriteStoriesSection();
+}
+
+function showFavoriteStoriesSection() {
+  hidePageComponents();
+  $favoriteStoriesList.show();
+}

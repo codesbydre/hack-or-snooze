@@ -4,8 +4,6 @@
  * Handling navbar clicks and updating navbar
  */
 
-const $navFavorites = $("#nav-favorites");
-
 /** Show main list of all stories when click site name */
 
 function navAllStories(evt) {

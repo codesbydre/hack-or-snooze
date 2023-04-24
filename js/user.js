@@ -114,22 +114,3 @@ function updateUIOnUserLogin() {
 
   updateNavOnLogin();
 }
-
-//Show list of favorite stories
-function showFavorites() {
-  console.debug("showFavorites");
-
-  $favoriteStoriesList.empty();
-
-  if (currentUser.favorites.length === 0) {
-    $favoriteStoriesList.append("<h5>No favorites added!</h5>");
-  } else {
-    $favoriteStoriesList.append("<h3> Your Favorite Stories </h3>");
-    for (let story of currentUser.favorites) {
-      const $story = generateStoryMarkup(story);
-      $favoriteStoriesList.append($story);
-    }
-  }
-
-  showFavoriteStoriesSection();
-}

@@ -13,7 +13,9 @@ const $signupForm = $("#signup-form");
 const $navLogin = $("#nav-login");
 const $navUserProfile = $("#nav-user-profile");
 const $navLogOut = $("#nav-logout");
+const $navFavorites = $("#nav-favorites");
 
+const $storyForm = $("#add-story-form");
 const $favoriteStoriesList = $("#favorite-stories-list");
 const $navMyStories = $("#nav-my-stories");
 const $myStoriesList = $("#my-stories-list");
@@ -56,8 +58,3 @@ console.warn(
     " menu 'Default Levels' and add Verbose"
 );
 $(start);
-
-function showFavoriteStoriesSection() {
-  hidePageComponents();
-  $favoriteStoriesList.show();
-}
